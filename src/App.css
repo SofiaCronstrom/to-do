@@ -41,6 +41,23 @@
   color: #888;
 }
 
+/*Min style*/
+form{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
 .task-completed{
   text-decoration: line-through;
+}
+ul{
+  list-style-type: none;
+  margin: 2rem 0 0 0;
+  padding: 0;
+  li{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
 }

@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 
 export default function TodoList() {
   const [task, setTask] = useState<string>("");
@@ -9,8 +9,9 @@ export default function TodoList() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     //kolla upp denna
-    if (task !== "") {
-      setTodos((prev) => [...prev, task]);
+    const item = task.trim();
+    if (item !== "") {
+      setTodos((prev) => [...prev, item]);
     }
     setTask("");
   };
@@ -24,6 +25,11 @@ export default function TodoList() {
     }
   }
 
+  const handleDelete = (index: number) => {
+    setTodos((prev) => prev.filter((_item, idx) => idx !== index));
+    setCompleted((prev) => prev.filter((item) => item !== index));
+  }
+
   return (
     <section className="todo-container">
       <article className="todo-items"></article>
@@ -34,7 +40,7 @@ export default function TodoList() {
           <input
             placeholder="Add a new task"
             value={task}
-            onChange={(e) => setTask(e.target.value.trim())}
+            onChange={(e) => setTask(e.target.value)}
           />
         </label>
         <button type="submit" className="submit-btn">
@@ -44,8 +50,10 @@ export default function TodoList() {
       <ul>
         {todos.map((item, index) => (
           
-          <li className={`${completed.includes(index) ? 'task-completed' : ''}`}key={index}>{item}
-          <input onClick={() => handleComplete(index)} type="checkbox"/>
+          <li className={`${completed.includes(index) ? 'task-completed' : ''}`}key={index}>
+          <input checked={completed.includes(index)} onChange={() => handleComplete(index)} type="checkbox"/>
+          {item}
+          <button onClick={() => handleDelete(index)}>X</button>
           </li>
           
           
